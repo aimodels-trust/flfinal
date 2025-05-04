@@ -14,18 +14,14 @@ feature_names = [
     'BILL_AMT1', 'BILL_AMT2', 'BILL_AMT3', 'BILL_AMT4', 'BILL_AMT5', 'BILL_AMT6',
     'PAY_AMT1', 'PAY_AMT2', 'PAY_AMT3', 'PAY_AMT4', 'PAY_AMT5', 'PAY_AMT6'
 ]
-data['default.payment.next.month'] = 0  # Dummy value
-prediction, probability = predict(data)
-
-
-st.title("Credit Card Default Prediction")
-
-option = st.sidebar.selectbox("Choose Prediction Type", ["Single Prediction", "Batch Prediction"])
 
 def predict(data):
     prediction = model.predict(data)
     probability = model.predict_proba(data)[:, 1]
     return prediction, probability
+
+st.title("Credit Card Default Prediction")
+option = st.sidebar.selectbox("Choose Prediction Type", ["Single Prediction", "Batch Prediction"])
 
 # ---- SINGLE PREDICTION ----
 if option == "Single Prediction":
@@ -53,7 +49,10 @@ elif option == "Batch Prediction":
         st.dataframe(data.head())
 
         if all(col in data.columns for col in feature_names):
-            prediction, probability = predict(data[feature_names])
+            # Add dummy label column if required by model
+            data['default.payment.next.month'] = 0
+
+            prediction, probability = predict(data[feature_names + ['default.payment.next.month']])
             data['Prediction'] = prediction
             data['Probability'] = probability
             st.write("### Prediction Results")
@@ -63,4 +62,3 @@ elif option == "Batch Prediction":
             st.download_button("Download Results as CSV", csv, "prediction_results.csv", "text/csv")
         else:
             st.error("Uploaded CSV must contain all required feature columns.")
-
