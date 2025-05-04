@@ -52,7 +52,7 @@ elif option == "Batch Prediction":
             # Add dummy label column if required by model
             data['default.payment.next.month'] = 0
 
-            prediction, probability = predict(data[feature_names + ['default.payment.next.month']])
+            prediction, probability = predict(data[feature_names + ['default payment next month']])
             data['Prediction'] = prediction
             data['Probability'] = probability
             st.write("### Prediction Results")
