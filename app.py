@@ -4,7 +4,7 @@ import numpy as np
 import pickle
 
 # Load trained global model
-with open('global_model (3).pkl', 'rb') as file:
+with open('global_model (4).pkl', 'rb') as file:
     model = pickle.load(file)
 
 # Define input features based on training
