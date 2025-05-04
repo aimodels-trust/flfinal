@@ -6,7 +6,7 @@ import pickle
 # Load model
 @st.cache_resource
 def load_model():
-    with open("global_model (4).pkl", "rb") as f:
+    with open("global_model.pkl", "rb") as f:
         return pickle.load(f)
 
 model = load_model()
